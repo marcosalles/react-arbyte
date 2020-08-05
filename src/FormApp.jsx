@@ -4,50 +4,50 @@ import axios from 'axios';
 class FormApp extends React.Component {
 	constructor(props) {
 		super(props);
-
 		this.state = {
-			email: null,
+			email: '',
+			name: '',
+			password: '',
 		};
-
-		console.log('CONSTRUCTOR');
 	}
 
-	componentDidMount() {
-		console.log('DID MOUNT');
-	}
+	changeValue = (event) => {
+		const { value, name } = event.target;
+		console.log(name);
 
-	componentDidUpdate() {
-		console.log('DID UPDATE');
-	}
-
-	componentWillUnmount() {
-		console.log('WILL UNMOUT');
-	}
-
-	saveEmail = (event) => {
-		const emailValue = event.target.value;
-		console.log('Salvando email', emailValue);
-		this.setState(() => {
-			return { email: emailValue };
-		});
-	}
-
-	signUp = () => {
-		const { email } = this.state;
-		axios.post('http://localhost:8080/signup', { email })
-			.then(response => {
-				console.log(response.data);
-			})
-			.catch(error => console.log(error.message));
-	}
-
+		this.setState({ [name]: value });
+		// if (name == 'email') {
+		// 	this.setState({ email: value });
+		// } else if (name == 'name') {
+		// 	this.setState({ name: value });
+		// } else if (name == 'password') {
+		// 	this.setState({ password: value });
+		// }
+		// this.setState({ textValue: value });
+	};
+	
 	render() {
-		console.log('RENDER');
+		const inputs = [
+			{ name: 'email', type: 'text', label: 'Email' },
+			{ name: 'name', type: 'text', label: 'Nome completo' },
+			{ name: 'password', type: 'password', label: 'Senha' },
+		];
+		console.log('state', this.state);
 		return (
-			<div style={{padding: 16}}>
-				<input onChange={this.saveEmail} />
-				<button onClick={this.signUp} >Cadastrar</button>
-			</div>
+			<form style={{padding: 16, display: 'flex', flexDirection: 'column'}}>
+				{inputs.map(({name, type, label}, index) => (
+					<label>
+						{label}
+						<input
+							name={name}
+							type={type}
+							value={this.state[name]}
+							onChange={(event) => this.changeValue(event)}
+						/>
+					</label>
+				))}
+				<button >Cadastrar</button>
+			</form>
 		);
 	}
 };

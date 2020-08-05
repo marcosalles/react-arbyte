@@ -4,39 +4,8 @@ import './index.css';
 import FormApp from './FormApp';
 import * as serviceWorker from './serviceWorker';
 
-class Destructor extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      shouldRenderForm: true
-    };
-  }
-
-  componentDidMount() {
-    setTimeout(this.destroyForm, 10000);
-  }
-
-  destroyForm = () => {
-    this.setState({
-      shouldRenderForm: false
-    });
-  }
-
-  render() {
-    return (
-      <div>
-        {this.state.shouldRenderForm ? (
-          <FormApp/>
-        ) : null}
-      </div>
-    )
-  }
-}
-
 ReactDOM.render(
-  <React.StrictMode>
-    <Destructor />
-  </React.StrictMode>,
+  <FormApp/>,
   document.getElementById('root')
 );
 
